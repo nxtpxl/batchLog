@@ -5,10 +5,7 @@ import sys
 import PyQt4
 from PyQt4 import QtGui, QtCore, uic
 
-
-# Your UI filename
 _UI = 'C:/Users/nitin.singh/Dropbox/MAYA_2018_python_code/Dragon_001.ui'
-
 
 class batcher_batch_log(QWidget):
     def __init__(self):
@@ -69,8 +66,6 @@ class batcher_batch_log(QWidget):
         else:
             return filePath
 
-
-
     def Updating_batcher_LOG_JsonFile(self):
         notesDictFromDisk = {'jobs':[]}
         notesFile = self.notesFileToRead
@@ -92,7 +87,6 @@ class batcher_batch_log(QWidget):
 
                 for i, a in enumerate(jsondata['jobs'], 0):
                     #print a
-
                     logEntry =  map(str, a)
                     #notesDictFromDisk['jobs'].append(map(str, a))
                     jobClass = logEntry[1]
@@ -169,12 +163,8 @@ class batcher_batch_log(QWidget):
                     jobpath = logEntry[9].split('______')
                     #print jobpath[0], jobpath[1]
                     self.updateTableWidgetContent(self, jobClass, jobName, Frame_Range, submitTime, size, status, outPut_Res, outPut_Format, jobpath)
-
-
         else:
                 print ('')
-
-
     def updateTableWidgetContent(self, jobClass, jobName, Frame_Range, submitTime, size, status, outPut_Res, outPut_Format, jobpath):
         jobspath = jobpath.split('______')
         self.ui.assetsList_tableWidget.setRowHeight (i, 40)
@@ -196,10 +186,8 @@ class batcher_batch_log(QWidget):
             with open(notesFile, 'r') as file:
                 jsondata = json.load(file)
                 #print (jsondata)
-
                 self.ui.assetsList_job_tableWidget.clearContents()
                 self.ui.assetsList_job_tableWidget.setRowCount(len(jsondata['JOB_details']))
-
                 for i, a in enumerate(jsondata['JOB_details'], 0):
                     logEntry =  map(str, a)
                     jobID =  logEntry[0]
@@ -216,8 +204,6 @@ class batcher_batch_log(QWidget):
 
         else:
                 print ('')
-
-
     def getselectedJobDetails(self):
         indexes = self.ui.assetsList_tableWidget.selectionModel().selectedRows()
         rows=[]
@@ -228,13 +214,11 @@ class batcher_batch_log(QWidget):
             jobPath = self.filePathFixed(os.path.join(os.path.dirname(jobPath.split('\n')[0]), 'jobLog.txt'))
             self.readingJOB_log_file(jobPath)
 
-
     def getAllTagsForComboBox(self, allTagsToLoad):
         self.ui.Tags_comboBox.clear()
         listToAdd = ['All']
         self.ui.Tags_comboBox.addItems(listToAdd)
         self.ui.Tags_comboBox.addItems(allTagsToLoad)
-
 
     def getStartEndTime(self):
         startTime =(self.ui.start_time_timeEdit.time().toString())
@@ -275,17 +259,18 @@ class batcher_batch_log(QWidget):
     def startBatchProcess(self):
         self.getStartEndTime()
         self.selectedJobs()
-
 def run():
     global batcher_batch_log_UI
     batcher_batch_log_UI = batcher_batch_log()
     batcher_batch_log_UI.ui.show()
+
 run()
 
-
+'''
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
 
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
+'''
