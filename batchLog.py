@@ -16,14 +16,23 @@ from PyQt4.QtGui import QTableWidgetItem
 from PyQt4.QtGui import QTableView
 from PyQt4 import QtGui,QtCore
 
-_UI = 'C:/Users/nitin.singh/Dropbox/MAYA_2018_python_code/deadPool_001.ui'
+import NXTPXL
+Import NXTLOG
+from PROJECTLOG import *
+from NXTPXL import batchLog_UI_path as BLUI 
+from NXTPXL import projects_dir
+from NXTPXL import notesLog
+from NXTPXL import filePathFixed
+from NXTPXL import userLogs
+
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
-        self.ui = uic.loadUi(_UI, self)
-        self.projectDir = r'C:/Users/nitin.singh/Dropbox/NXTPXLENT/pipe___RND/projects'
-        self.notesFileToRead = 'L:/NXTPXLENT/pipe___RND/library/library_JSON_tags/batcher__job_log.txt'
+        path = (BLUI +'/deadPool_001.ui')
+        self.ui = uic.loadUi(path, self)
+        self.projectDir = projects_dir
+        self.notesFileToRead = notesLog
         self.projectLoad()
 
         # UI functionality and option setup
