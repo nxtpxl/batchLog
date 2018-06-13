@@ -7,7 +7,6 @@ import os.path, time
 import os
 import re
 import glob
-
 import json
 import copy
 import sys
@@ -16,7 +15,6 @@ import time
 import datetime
 import subprocess
 import math
-
 import os.path, time
 from os.path import exists
 from glob import glob, iglob
@@ -32,7 +30,6 @@ from PyQt4.QtGui import QTableWidgetItem
 from PyQt4.QtGui import QTableView
 from PyQt4 import QtGui,QtCore
 
-# Your UI filename
 _UI = 'C:/Users/nitin.singh/Dropbox/MAYA_2018_python_code/deadPool_001.ui'
 
 class MainWindow(QtGui.QMainWindow):
@@ -48,10 +45,8 @@ class MainWindow(QtGui.QMainWindow):
         stylesheet = "::section{Background-color:rgb(50,50,50)}"
         self.ui.assetsList_tableWidget.horizontalHeader().setStyleSheet(stylesheet)
         self.ui.assetsList_tableWidget.verticalHeader().setStyleSheet(stylesheet)
-
         self.ui.assetsList_job_tableWidget.horizontalHeader().setStyleSheet(stylesheet)
         self.ui.assetsList_job_tableWidget.verticalHeader().setStyleSheet(stylesheet)
-
         self.ui.assetsList_tableWidget.resizeColumnsToContents()
         self.ui.assetsList_tableWidget.resizeRowsToContents()
         self.ui.assetsList_tableWidget.horizontalHeader().setStretchLastSection(True)
@@ -71,19 +66,14 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.assetsList_job_tableWidget.setColumnWidth(1,100)
         self.ui.assetsList_job_tableWidget.setColumnWidth(2,100)
         self.ui.assetsList_job_tableWidget.setColumnWidth(3,100)
-
         self.Updating_batcher_LOG_JsonFile()
-
         self.ui.batch_start_pushButton.clicked.connect(self.startBatchProcess)
         self.ui.Tags_comboBox.currentIndexChanged.connect(self.updateSelectedTagList)
         self.ui.assetsList_tableWidget.clicked.connect(self.getselectedJobDetails)
 
-
-
     def projectLoad(self):
         print ('loading the projects')
         existingProjects = sorted(os.listdir(self.projectDir))
-
     '''JSON entries'''
     def filePathFixed(self, path):
         if platform.system()=='Windows':
@@ -105,7 +95,6 @@ class MainWindow(QtGui.QMainWindow):
         if notesFileChk == True:
 
             # reading json file whixh is selcted by the user
-
             with open(notesFile, 'r') as file:
                 jsondata = json.load(file)
                 number = str(len(jsondata['jobs'])).decode("utf-8")
@@ -134,7 +123,6 @@ class MainWindow(QtGui.QMainWindow):
         else:
                 print ('')
 
-
     ##########################################################################################
     # writing JSON file in the JOB folder
 
@@ -154,7 +142,6 @@ class MainWindow(QtGui.QMainWindow):
                 #print (jsondata)
                 self.ui.assetsList_job_tableWidget.clearContents()
                 self.ui.assetsList_job_tableWidget.setRowCount(0)
-
                 self.ui.assetsList_tableWidget.clearContents()
                 self.ui.assetsList_tableWidget.setRowCount(len(jsondata['jobs']))
                 selectedTagJobs = []
@@ -164,7 +151,6 @@ class MainWindow(QtGui.QMainWindow):
                     logEntry =  map(str, a)
                     if tagName == 'All':
                         selectedTagJobs.append (logEntry)
-
                     else:
                         jobClass = logEntry[1]
                         if jobClass == tagName:
@@ -190,11 +176,8 @@ class MainWindow(QtGui.QMainWindow):
                     outPut_Format = logEntry[8]
                     jobpath = logEntry[9]
                     self.updateTableWidgetContent(self, jobClass, jobName, Frame_Range, submitTime, size, status, outPut_Res, outPut_Format, jobpath)
-
-
         else:
                 print ('')
-
     def updateTableWidgetContent(self, jobClass, jobName, Frame_Range, submitTime, size, status, outPut_Res, outPut_Format, jobpath):
         jobspath = jobpath.split('______')
         self.ui.assetsList_tableWidget.setRowHeight (i, 40)
@@ -218,13 +201,9 @@ class MainWindow(QtGui.QMainWindow):
         if notesFileChk == True:
             with open(notesFile, 'r') as file:
                 jsondata = json.load(file)
-                print (jsondata)
-
                 self.ui.assetsList_job_tableWidget.clearContents()
                 self.ui.assetsList_job_tableWidget.setRowCount(len(jsondata['JOB_details']))
-
                 for i, a in enumerate(jsondata['JOB_details'], 0):
-                    print (a)
                     logEntry =  map(str, a)
                     jobID =  logEntry[0]
                     jobStart = logEntry[1]
@@ -237,10 +216,8 @@ class MainWindow(QtGui.QMainWindow):
                     self.ui.assetsList_job_tableWidget.setItem(i, 2, QTableWidgetItem(jobEnd))
                     self.ui.assetsList_job_tableWidget.setItem(i, 3, QTableWidgetItem(jobMem))
                     self.ui.assetsList_job_tableWidget.setItem(i, 4, QTableWidgetItem(jobDuration))
-
         else:
                 print ('')
-
 
     def getselectedJobDetails(self):
         indexes = self.ui.assetsList_tableWidget.selectionModel().selectedRows()
@@ -248,12 +225,10 @@ class MainWindow(QtGui.QMainWindow):
         for index in sorted(indexes):
             rows.append(index.row())
         for job in rows:
-            print ('____________________________________________________')
             jobPath =  self.ui.assetsList_tableWidget.item(job,8).text()
             jobPath = self.filePathFixed(os.path.join(os.path.dirname(jobPath.split('\n')[0]), 'jobLog.txt'))
             print (jobPath)
             self.readingJOB_log_file(jobPath)
-
 
     def getAllTagsForComboBox(self, allTagsToLoad):
         self.ui.Tags_comboBox.clear()
@@ -261,12 +236,11 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.Tags_comboBox.addItems(listToAdd)
         self.ui.Tags_comboBox.addItems(allTagsToLoad)
 
-
     def getStartEndTime(self):
         #startTime =self.ui.start_time_timeEdit.currentTime()
         startTime =(self.ui.start_time_timeEdit.time().toString())
         endTime = (self.ui.end_time_timeEdit.time().toString())
-        print (startTime, endTime)
+        return (startTime, endTime)
 
     def selectedJobs(self):
         rows=[]
@@ -275,7 +249,6 @@ class MainWindow(QtGui.QMainWindow):
 
         rows = list(set(rows))
         for job in rows:
-            print ('____________________________________________________')
             jobClass =  self.ui.assetsList_tableWidget.item(job,0).text()
             jobName =   self.ui.assetsList_tableWidget.item(job,1).text()
             print (('jobClass :' + jobClass) +
@@ -284,7 +257,6 @@ class MainWindow(QtGui.QMainWindow):
             jobID = (jobClass + '_'+jobName)
             print (jobID)
             # getting all the enteries of selected job from JSON file
-
             notesFile = self.notesFileToRead
             notesFileChk = os.path.exists(notesFile)
             if notesFileChk == True:
@@ -328,10 +300,13 @@ class MainWindow(QtGui.QMainWindow):
         self.getStartEndTime()
         self.selectedJobs()
 
-
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
-
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
+
+    
+    
+    
+    
