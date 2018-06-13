@@ -1,31 +1,17 @@
 
 import os
 import sys
-import PyQt4
-from PyQt4 import QtGui, QtCore, uic
-import os.path, time
-import os
 import re
 import glob
 import json
 import copy
-import sys
-import math
 import time
 import datetime
 import subprocess
 import math
-import os.path, time
-from os.path import exists
 from glob import glob, iglob
-from glob import iglob
-from os import listdir
-from os.path import isfile, join
-from os.path import basename
 from functools import partial
-from glob import glob
-from os import mkdir
-from os.path import curdir, join
+import PyQt4
 from PyQt4.QtGui import QTableWidgetItem
 from PyQt4.QtGui import QTableView
 from PyQt4 import QtGui,QtCore
