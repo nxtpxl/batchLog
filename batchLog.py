@@ -17,7 +17,7 @@ from PyQt4.QtGui import QTableView
 from PyQt4 import QtGui,QtCore
 
 import NXTPXL
-Import NXTLOG
+import NXTLOG
 from PROJECTLOG import *
 from NXTPXL import batchLog_UI_path as BLUI 
 from NXTPXL import projects_dir
